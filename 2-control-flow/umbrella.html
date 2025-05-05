@@ -10,7 +10,6 @@
 
     <h2>Part 1</h2>
     <p>
-
         Write a program to provide instructions based on whether or not it is raining out, and whether or not the user owns an umbrella.
 
         Model the concept of whether or not its raining in a variable called <code>isRaining</code>, assign it a boolean value of choice, and log it to the console.
@@ -27,7 +26,6 @@
         </ul>
     </p>
 
-
     <hr>
     <h2>Part 2</h2>
     <p>
@@ -39,7 +37,6 @@
     <p>
         Invoke the function four different times using different combinations of boolean values for <code>isRaining</code> and <code>ownsUmbrella</code>, and log the resulting messages to the console to ensure the program works under all possible scenarios.
     </p>
-
 
     <hr>
     <h2>Part 3</h2>
@@ -63,32 +60,32 @@
 
     <br>
     <label>Message:</label>
-    <span id="display-message">TODO</span>
+    <span id="display-message">Pls Enter Conditions for Advise</span>
 
+    <script>
+      // Part 1
+      const isRaining = true, ownsUmbrella = false;
+      console.log('isRaining:', isRaining, 'ownsUmbrella:', ownsUmbrella);
+      if (!isRaining) console.log('Skies are clear');
+      else console.log(ownsUmbrella ? 'Bring your umbrella' : 'Buy an umbrella');
 
-    <script type="text/javascript">
+      // Part 2
+      const advise = (r, u) =>
+        !r ? 'Skies are clear' : u ? 'Bring your umbrella' : 'Buy an umbrella';
 
-        console.log("---------------------")
-        console.log("PART 1...")
+      console.log(
+        advise(false, false),
+        advise(false, true),
+        advise(true, false),
+        advise(true, true)
+      );
 
-
-
-
-
-        console.log("---------------------")
-        console.log("PART 2...")
-
-
-
-
-
-        console.log("---------------------")
-        console.log("PART 3...")
-
-
-
-
-
+      // Part 3
+      document.getElementById('advise').onclick = () => {
+        const r = document.getElementById('switch-raining').checked;
+        const u = document.getElementById('switch-umbrella').checked;
+        document.getElementById('display-message').textContent = advise(r, u);
+      };
     </script>
 </body>
 </html>
