@@ -1,68 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Area of a Circle</title>
+  <meta charset="UTF-8">
+  <title>Area of a Circle - Reetvik & Rohit</title>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <h1>Area of a Circle</h1>
-    <a href="../index.html">Home</a>
+  <h1>Area of a Circle</h1>
+  <a href="../index.html">Home</a>
 
-    <h2>Part 1</h2>
-    <p>
-        Create a JavaScript function called <code>calculateCircleArea</code>
-        that takes an input parameter called <code>radius</code>,
-        and returns the corresponding area.
-    </p>
-    <p>
-        Invoke the function, passing a radius of 9, and store the resulting area in a variable.
-        Log both the radius and the corresponding area to the console.
-    </p>
+  <h2>Part 1</h2>
+  <p>
+    Create a JavaScript function called <code>calculateCircleArea</code>
+    that takes an input parameter called <code>radius</code>,
+    and returns the corresponding area.
+  </p>
+  <p>
+    Invoke the function, passing a radius of 9, and store the resulting area in a variable.
+    Log both the radius and the corresponding area to the console.
+  </p>
 
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <p>
-        <strong>HINT:</strong> the formula for circle area is:
-        <br>
-        \[
-            A = \pi r^{2}
-        \]
-    </p>
+  <script>
+    const calculateCircleArea = r => Math.PI * r * r;
+    console.log('Radius:', 9, 'Area:', calculateCircleArea(9));
+  </script>
 
-    <hr>
-    <h2>Part 2</h2>
-    <p>
-        See the numeric radius input box and "Calculate" button below.
-        Write JavaScript code to respond to button click events,
-        and when the button is clicked, the program should
-        calculate the area for the given radius (using the function from Part 1),
-        and finally then display the area in the designated span element.
-    </p>
-
-    <label>Radius:</label>
-    <input id="input-radius" type="number" placeholder="9" value="9"></input>
-    <button id="calculate">Calculate</button>
-
+  <p>
+    <strong>HINT:</strong> the formula for circle area is:
     <br>
-    <label>Area:</label>
-    <span id="display-area">TODO</span>
+    \[
+      A = \pi r^{2}
+    \]
+  </p>
 
+  <hr>
+  <h2>Part 2</h2>
+  <p>
+    See the numeric radius input box and "Calculate" button below.
+    Write JavaScript code to respond to button click events,
+    and when the button is clicked, the program should
+    calculate the area for the given radius (using the function from Part 1),
+    and finally then display the area in the designated span element.
+  </p>
 
-    <script type="text/javascript">
+  <label for="input-radius">Radius:</label>
+  <input id="input-radius" type="number" value="9">
+  <button id="calculate">Calculate</button>
 
-        console.log("---------------------")
-        console.log("PART 1...")
+  <br><br>
+  <label>Area:</label>
+  <span id="display-area">Pls enter value for radius to calculate area</span>
 
-
-
-
-
-        console.log("---------------------")
-        console.log("PART 2...")
-
-
-
-
-
-    </script>
+  <script>
+    document.getElementById('calculate').onclick = () => {
+      const r = +document.getElementById('input-radius').value;
+      document.getElementById('display-area').textContent = calculateCircleArea(r);
+    };
+  </script>
 </body>
 </html>
