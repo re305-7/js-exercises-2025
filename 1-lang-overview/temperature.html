@@ -1,88 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temperature Conversion</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Temperature Conversion</title>
 </head>
 <body>
-    <h1>Temperature Conversion</h1>
-    <a href="../index.html">Home</a>
+  <h1>Temperature Conversion</h1>
+  <a href="../index.html">Home</a>
 
-    <h2>Part 1</h2>
-    <p>
-        The International Space Station periodically sends back temperature readings from space,
-        and recently sent back a report that the temperature was around -270 degrees Celsius.
-    </p>
-    <p>
-        Write JavaScript code to model the Celsius temperature concept in a variable,
-        convert this Celsius temperature to Fahrenheit,
-        and then log both temperatures to the console.
-    </p>
+  <h2>Part 1</h2>
+  <p>
+    The International Space Station periodically sends back temperature readings from space,
+    and recently sent back a report that the temperature was around -270 degrees Celsius.
+  </p>
+  <p>
+    Write JavaScript code to model the Celsius temperature concept in a variable,
+    convert this Celsius temperature to Fahrenheit,
+    and then log both temperatures to the console.
+  </p>
 
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <p>
-        <strong>HINT:</strong> the formula for temperature conversion is:
-        <br>
-        \[
-            F = \frac{9}{5}C + 32
-        \]
-    </p>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <p><strong>HINT:</strong> the formula for temperature conversion is:<br>
+    \[ F = \tfrac{9}{5}C + 32 \]
+  </p>
 
-    <hr>
-    <h2>Part 2</h2>
-    <p>
-        Create a JavaScript function called <code>calculateTemp</code>
-        that takes an input parameter called <code>tempC</code> (the Celsius temperature),
-        and returns the corresponding temperature in Fahrenheit.
-        Invoke the function, passing in a Celsius temperature of -270 degrees,
-        and store the resulting Fahrenheit temperature in a variable.
-        Log both temperatures to the console.
-    </p>
+  <hr>
+  <h2>Part 2</h2>
+  <p>
+    Create a JavaScript function called <code>calculateTemp</code> that takes a Celsius value
+    and returns Fahrenheit, then log both for <code>-270°C</code>.
+  </p>
 
-    <hr>
-    <h2>Part 3</h2>
-    <p>
-        See the numeric Celsius temperature input box and "Calculate" button below.
-        Write JavaScript code to respond to button click events,
-        and when the button is clicked, the program should
-        convert this Celsius temperature to Fahrenheit (using the function from Part 2),
-        and finally then display the Fahrenheit temperature in the designated span element.
-    </p>
+  <hr>
+  <h2>Part 3</h2>
+  <p>
+    Provide an input box and button below. On click, convert the entered Celsius value
+    (using <code>calculateTemp</code>) and show the result in the span.
+  </p>
 
-    <label>Celsius Temperature:</label>
-    <input id="input-temp-c" type="number" placeholder="-270" value="-270"></input>
-    <button id="calculate">Calculate</button>
+  <label>Celsius Temperature:</label>
+  <input id="input-temp-c" type="number" value="-270">
+  <button id="calculate">Calculate</button>
+  <br>
+  <label>Fahrenheit Temperature:</label>
+  <span id="display-temp-f">Pls enter Celsius Temperature to populate this value</span>
 
-    <br>
-    <label>Fahrenheit Temperature:</label>
-    <span id="display-temp-f">TODO</span>
+  <script>
+  (function() {
+    const calculateTemp = c => c * 9/5 + 32;
+    const log = (...args) => console.log(...args);
 
+    // Part 1 & 2
+    log('PART 1 & 2:', 'Celsius = -270, Fahrenheit =', calculateTemp(-270));
 
-    <script type="text/javascript">
-
-        console.log("---------------------")
-        console.log("PART 1...")
-
-
-
-
-
-        console.log("---------------------")
-        console.log("PART 2...")
-
-
-
-
-
-
-        console.log("---------------------")
-        console.log("PART 3...")
-
-
-
-
-
-    </script>
+    // Part 3
+    const input = document.getElementById('input-temp-c');
+    const output = document.getElementById('display-temp-f');
+    document.getElementById('calculate').onclick = () => {
+      const c = parseFloat(input.value);
+      output.textContent = isNaN(c)
+        ? 'Invalid input'
+        : calculateTemp(c).toFixed(2);
+    };
+  })();
+  </script>
 </body>
 </html>
