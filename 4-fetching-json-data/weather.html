@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast (JSON)</title>
+    <title>Weather Forecast (JSON) - Reetvik</title>
 
     <style>
         /*
@@ -32,7 +32,6 @@
     <p>
         Write JavaScript code to answer the questions below.
         Log each of the answers to the console.
-
         <ol type="A">
             <li>Fetch the weather data using the provided URL.</li>
             <li>Display the date this data was generated (i.e. "2021-06-08").</li>
@@ -46,7 +45,6 @@
             </li>
         </ol>
     </p>
-
 
     <h2>Part 2</h2>
     <p>
@@ -69,39 +67,66 @@
     <h2>Display</h2>
     <div id="weather-app">
         <p>Date: <span id="display-date">TODO</span></p>
-
         <p>Seven Day Forecast:</p>
-        <table id="display-forecast" style="border:1px solid black;">
-        </table>
+        <table id="display-forecast" style="border:1px solid black;"></table>
     </div>
 
 
     <script type="text/javascript">
+        const degreeSymbol = "\u00B0";
+        const requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json";
 
-        var degreeSymbol = "\u00B0"
+        fetch(requestUrl)
+            .then(resp => resp.json())
+            .then(data => {
+                console.log("DATA", data);
 
-        var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json"
+                console.log("---------------------");
+                console.log("PART 1...");
+                // A: already fetched
+                // B: date generated
+                const generatedAt = data.properties.generatedAt.slice(0, 10);
+                console.log("Date generated:", generatedAt);
+                // C: total periods
+                const periods = data.properties.periods;
+                console.log("Total periods:", periods.length);
+                // D: daytime periods filter
+                const daytimePeriods = periods.filter(p => p.isDaytime);
+                console.log("Daytime periods count:", daytimePeriods.length);
+                // F: human-readable forecasts
+                daytimePeriods.forEach(p => {
+                    console.log(
+                        `${p.name}: ${p.temperature}${degreeSymbol}${p.temperatureUnit} – ${p.shortForecast}`
+                    );
+                });
 
-        fetch(requestUrl).then(response => response.json())
-            .then(function(data){
-                console.log("DATA", data)
-
-
-                console.log("---------------------")
-                console.log("PART 1...")
-
-
-
-
-                console.log("---------------------")
-                console.log("PART 2...")
-
-
-
-
+                console.log("---------------------");
+                console.log("PART 2...");
+                // A: display date on page
+                document.getElementById("display-date").textContent = generatedAt;
+                // B: build table header
+                const table = document.getElementById("display-forecast");
+                table.innerHTML = `
+                    <tr>
+                        <th>Period</th>
+                        <th>Temperature</th>
+                        <th>Forecast</th>
+                        <th>Icon</th>
+                    </tr>
+                `;
+                // B: insert one row per daytime period
+                daytimePeriods.forEach(p => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${p.name}</td>
+                        <td>${p.temperature}${degreeSymbol}${p.temperatureUnit}</td>
+                        <td>${p.shortForecast}</td>
+                        <td><img src="${p.icon}" alt="${p.shortForecast}" /></td>
+                    `;
+                    table.appendChild(row);
+                });
             })
-            .catch(err => console.log(err))
-
+            .catch(err => console.error(err));
     </script>
 </body>
 </html>
