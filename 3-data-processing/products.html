@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Products</title>
+    <title>Products - Reetvik</title>
 </head>
 <body>
 
@@ -14,7 +13,6 @@
     <p>
         Write JavaScript code to process the provided <code>products</code> variable to answer the questions below.
         Log each of the answers to the console.
-
         <ol type="A">
             <li>Display the total number of products (i.e. 3).</li>
             <li>Loop through each product and display their name and price, each on a new line.</li>
@@ -33,12 +31,15 @@
         and finally a <code>hr</code> element to produce a horizontal line separator between each of the products.
     </p>
 
+
+    <hr>
+    <h2> Part 2 Solutions </h2>
+
     <div id="display-products"></div>
 
-
     <script type="text/javascript">
-
-        var products = [
+        // Data
+        const products = [
             {
                 "name": "Textbook",
                 "description": "It has all the answers.",
@@ -57,22 +58,34 @@
                 "price": 4.99,
                 "imageURL": "https://picsum.photos/id/1080/360/200"
             }
-        ]
+        ];
 
-        console.log("---------------------")
-        console.log("PART 1...")
+        // Part 1
+        console.log("---------------------");
+        console.log("PART 1...");
+        console.log(`Total products: ${products.length}`);
+        products.forEach(({ name, price }) =>
+            console.log(`${name}: $${price.toFixed(2)}`)
+        );
+        const matchingProducts = products.filter(p => p.price < 50);
+        console.log(`Matching products (< $50): ${matchingProducts.length}`);
+        console.log("matchingProducts array:", matchingProducts);
 
-
-
-
-
-
-        console.log("---------------------")
-        console.log("PART 2...")
-
-
-
-
+        // Part 2
+        console.log("---------------------");
+        console.log("PART 2...");
+        const container = document.getElementById("display-products");
+        products.forEach(({ name, description, price, imageURL }) => {
+            const prodDiv = document.createElement("div");
+            prodDiv.innerHTML = `
+                <p>${name}</p>
+                <p>${description}</p>
+                <p>$${price.toFixed(2)}</p>
+                <img src="${imageURL}" alt="${name}">
+                <hr>
+            `;
+            container.appendChild(prodDiv);
+        });
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gradebook</title>
+    <title>Gradebook - Reetvik</title>
 </head>
 <body>
 
@@ -44,7 +44,7 @@
     <script src="https://d3js.org/d3-array.v2.min.js"></script>
     <script type="text/javascript">
 
-        var gradebook = {
+        const gb = {
             "downloadDate": "2021-06-05",
             "professorId": 123,
             "students":[
@@ -61,16 +61,41 @@
             ]
         }
 
-        console.log("---------------------")
-        console.log("PART 1...")
+    console.log("---------------------\nPART 1...");
+    // A) download date
+    console.log("Download Date:", gb.downloadDate);
+    // B) student count
+    console.log("Student Count:", gb.students.length);
+    // C) each name & grade
+    gb.students.forEach(s => console.log(s.name + ":", s.finalGrade));
+    // D) array of grades
+    const grades = gb.students.map(s => s.finalGrade);
+    console.log("Grades Array:", grades);
+    // E) average
+    console.log("Average Grade:", d3.mean(grades).toFixed(2));
+    // F) median
+    console.log("Median Grade:", d3.median(grades).toFixed(2));
 
-
-
-
-
-
-        console.log("---------------------")
-        console.log("PART 2...")
+    console.log("---------------------\nPART 2...");
+    // populate table
+    const tbl = document.getElementById("display-gradebook");
+    // header row
+    const hdr = tbl.insertRow();
+    ["Student ID","Student Name","Final Grade"]
+      .forEach(txt => {
+        const th = document.createElement("th");
+        th.textContent = txt;
+        hdr.appendChild(th);
+      });
+    // data rows
+    gb.students.forEach(({studentId,name,finalGrade}) => {
+      const row = tbl.insertRow();
+      [studentId, name, finalGrade.toFixed(1)]
+        .forEach(val => {
+          const cell = row.insertCell();
+          cell.textContent = val;
+        });
+    });
 
 
 
