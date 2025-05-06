@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Company Overview (JSON)</title>
+    <title>Reetvik - Company Overview (JSON)</title>
 </head>
 <body>
 
@@ -17,112 +17,79 @@
     </p>
 
     <h2>Setup</h2>
-    <p>First obtain an AlphaVantage API Key, and supply it when prompted.</p>
+    <p>You will always be prompted to enter your AlphaVantage API Key.</p>
 
-    <h2>Part 1</h2>
-    <p>
-        Write JavaScript code to answer the questions below.
-        Log each of the answers to the console.
-
-        <ol type="A">
-            <li>Define a function called <code>lookupCompany</code>. It should:
-                <ul>
-                    <li>Identify the stock symbol that has been input into the provided <code>input</code> element, and store it in a variable called <code>symbol</code>.</li>
-                    <li>Dynamically compile a request URL for the specified company, and store it in a variable called <code>requestUrl</code>.
-                    <li>Fetch information about the specified company using the specified request URL.</li>
-                    <li>Display information about the company, including its:
-                        name (i.e. "Netflix Inc"), description, and website URL.
-                    </li>
-                </ul>
-            </li>
-            <li>Invoke the function once when the page initially loads (no need for an event listener).</li>
-            <li>Add an event listener to also invoke the function whenever the "Lookup" button is clicked. </li>
-        </ol>
-    </p>
-
-
-    <h2>Part 2</h2>
-    <p>
-        Write JavaScript code to answer the questions below.
-        Display the answers on the page in the designated areas.
-    </p>
-
+    <h2>Part 1 (console)</h2>
     <ol type="A">
-        <li>Revisit the <code>lookupCompany</code> function from Part 1. It should also:</li>
-            <ul>
-                <li>Display the company's name in the provided <code>span</code> element.</li>
-                <li>Display the company's description in the provided <code>span</code> element.</li>
-                <li>Display a hyperlink to the company's website in the provided <code>a</code> element. The link's text and <code>href</code> attribute should both be the website URL.</li>
-            </ul>
+        <li>Define <code>lookupCompany</code> to read the symbol, fetch its overview, and log name, description, and website.</li>
+        <li>Invoke it once on load.</li>
+        <li>Also invoke it whenever the “Lookup” button is clicked.</li>
+    </ol>
+
+    <h2>Part 2 (page)</h2>
+    <ol type="A">
+        <li>Revisit <code>lookupCompany</code> so it also writes the name, description, and website into the spans/anchor below.</li>
     </ol>
 
     <hr>
     <h2>Display</h2>
 
     <label>Stock Symbol:</label>
-    <input id="input-symbol" type="text" placeholder="NFLX" value="NFLX"></input>
+    <input id="input-symbol" type="text" placeholder="NFLX" value="NFLX">
     <button id="lookup">Lookup</button>
 
     <div id="display-company-info">
         <p>Name: <span id="display-name">TODO</span></p>
         <p>Description: <span id="display-description">TODO</span></p>
-        <p>Website: <a id="display-link" href="#TODO">TODO</span></p>
+        <p>Website: <a id="display-link" href="#" target="_blank">TODO</a></p>
     </div>
 
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <script type="text/javascript">
+    <script>
+        // Always prompt for the API key
+        const apiKey = prompt("Enter your AlphaVantage API key:");
+        const inputSymbol = document.getElementById("input-symbol");
+        const lookupButton = document.getElementById("lookup");
+        const displayName = document.getElementById("display-name");
+        const displayDescription = document.getElementById("display-description");
+        const displayLink = document.getElementById("display-link");
 
-        // AVOID HARD-CODING THE CREDENTIALS
-        // USE SESSION STORAGE TO MINIMIZE THE NUMBER OF TIMES WE HAVE TO PROVIDE THE CREDENTIAL
-        // check session storage for the API Key:
-        var apiKey = sessionStorage.getItem("ALPHAVANTAGE_API_KEY")
-        if (!apiKey) {
-            // if it isn't there, ask the user to supply it:
-            apiKey = prompt("Please enter your AlphaVantage API key:")
-            // store it in the session for later (so it will persist after refreshing the page)
-            sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey)
-        }
-
-
-
-        // FUNCTION DEFINITION
         function lookupCompany() {
-            var symbol = inputSymbol.value
-            console.log("SYMBOL:", symbol)
+            const symbol = inputSymbol.value.trim().toUpperCase();
+            console.log("SYMBOL:", symbol);
 
-            var requestUrl = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`
-            d3.json(requestUrl).then(function(data) {
-                console.log("RESPONSE:", data)
+            const url =
+                `https://www.alphavantage.co/query?function=OVERVIEW` +
+                `&symbol=${symbol}&apikey=${apiKey}`;
 
-                console.log("---------------------")
-                console.log("PART 1...")
+            d3.json(url).then(data => {
+                console.log("RESPONSE:", data);
+                console.log("---------------------");
+                console.log("PART 1...");
+                console.log("Name:", data.Name);
+                console.log("Description:", data.Description);
+                console.log("Website:", data.OfficialSite);
+                console.log("---------------------");
+                console.log("PART 2...");
 
-
-
-
-
-
-                console.log("---------------------")
-                console.log("PART 2...")
-
-
-
-
-
-            }).catch(function(error) {
-                console.error("ERROR:", error)
+                // Display on page
+                displayName.textContent = data.Name || "N/A";
+                displayDescription.textContent = data.Description || "N/A";
+                if (data.OfficialSite) {
+                    displayLink.href = data.OfficialSite;
+                    displayLink.textContent = data.OfficialSite;
+                } else {
+                    displayLink.href = "#";
+                    displayLink.textContent = "N/A";
+                }
             })
+            .catch(err => console.error("ERROR:", err));
         }
 
-        // FUNCTION INVOCATIONS
-        // invoke function when the page loads:
-        //lookupCompany()
-        // invoke function when button is clicked:
-        //lookupButton.addEventListener("click", lookupCompany, false)
-
+        // initial lookup
+        lookupCompany();
+        // lookup on button click
+        lookupButton.addEventListener("click", lookupCompany);
     </script>
 </body>
 </html>
